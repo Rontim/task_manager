@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:task_manager/domain/entities/task.dart';
 import 'package:task_manager/presentation/controllers/task_controller.dart';
+import 'package:task_manager/presentation/views/search_task_view.dart';
 
 class TaskListView extends StatelessWidget {
   const TaskListView({super.key});
@@ -13,6 +14,10 @@ class TaskListView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.search_rounded, color: Colors.white),
+          onPressed: () => Get.to(() => const SearchTaskView()),
+        ),
         title: Text(
           'Task List',
           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
@@ -27,6 +32,7 @@ class TaskListView extends StatelessWidget {
             onPressed: () => controller.pagingController.refresh(),
           ),
         ],
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
