@@ -13,7 +13,7 @@ class MainNavigationController extends GetxController {
   // List of pages to navigate to
   final List<Widget> pages = [
     const CreateTaskView(),
-    const TaskListView(), // Middle page (Home)
+    TaskListView(), // Middle page (Home)
     const SettingsView(),
   ];
 
@@ -28,7 +28,8 @@ class MainNavigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final MainNavigationController controller = Get.put(MainNavigationController());
+    final MainNavigationController controller =
+        Get.put(MainNavigationController());
 
     // Icon List for the Bottom Navigation
     final List<IconData> iconList = [
@@ -45,7 +46,8 @@ class MainNavigation extends StatelessWidget {
             },
             child: const Icon(Icons.home),
           ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
           bottomNavigationBar: AnimatedBottomNavigationBar(
             icons: iconList,
             activeIndex: controller.currentIndex.value,

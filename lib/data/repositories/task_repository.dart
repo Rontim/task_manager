@@ -50,8 +50,9 @@ class TaskRepositoryImpl implements TaskRepository {
   }
 
   @override
-  Future<List<Task>> getTasks(int pageKey, int pageSize) async {
-    final taskModels = await taskLocalDataSource.getAllTasks(pageKey, pageSize);
+  Future<List<Task>> getTasks(int pageKey, int pageSize, String? query) async {
+    final taskModels =
+        await taskLocalDataSource.getAllTasks(pageKey, pageSize, query);
 
     return taskModels
         .map((task) => Task(

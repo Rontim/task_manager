@@ -16,13 +16,24 @@ class TaskLocalDataSource {
     return await db.insert(DBConstants.taskTable, task.toMap());
   }
 
-  Future<List<TaskModel>> getAllTasks(int offset, int limit) async {
+  Future<List<TaskModel>> getAllTasks(
+      int offset, int limit, String? query) async {
     final db = await dbService.database;
-    final maps = await db.query(
-      DBConstants.taskTable,
-      limit: limit,
-      offset: offset,
-    );
+    late List<Map<String, Object?>> maps;
+
+    if (query!.isNotEmpty) {
+      maps = await db.query(DBConstants.taskTable,
+          limit: limit,
+          offset: offset,
+          where: '${DBConstants.taskTitle} = ?',
+          whereArgs: [query]);
+    } else {
+      maps = await db.query(
+        DBConstants.taskTable,
+        limit: limit,
+        offset: offset,
+      );
+    }
 
     if (maps.isEmpty) {
       return [];
@@ -35,7 +46,8 @@ class TaskLocalDataSource {
 
   Future<TaskModel?> getTaskById(int taskId) async {
     final db = await dbService.database;
-    final maps = await db.query(DBConstants.taskTable, where: '${DBConstants.taskId} = ?', whereArgs: [taskId]);
+    final maps = await db.query(DBConstants.taskTable,
+        where: '${DBConstants.taskId} = ?', whereArgs: [taskId]);
 
     if (maps.isNotEmpty) {
       return TaskModel.fromMap(maps.first);
@@ -46,11 +58,13 @@ class TaskLocalDataSource {
 
   Future<int> updateTask(TaskModel task) async {
     final db = await dbService.database;
-    return await db.update(DBConstants.taskTable, task.toMap(), where: '${DBConstants.taskId} = ?', whereArgs: [task.id]);
+    return await db.update(DBConstants.taskTable, task.toMap(),
+        where: '${DBConstants.taskId} = ?', whereArgs: [task.id]);
   }
 
   Future<int> deleteTask(int id) async {
     final db = await dbService.database;
-    return await db.delete(DBConstants.taskTable, where: '${DBConstants.taskId} = ?', whereArgs: [id]);
+    return await db.delete(DBConstants.taskTable,
+        where: '${DBConstants.taskId} = ?', whereArgs: [id]);
   }
 }

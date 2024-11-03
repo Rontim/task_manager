@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:task_manager/app_injector.dart';
 import 'package:task_manager/domain/entities/task.dart';
 import 'package:task_manager/presentation/controllers/task_controller.dart';
 import 'package:task_manager/presentation/views/search_task_view.dart';
 
 class TaskListView extends StatelessWidget {
-  const TaskListView({super.key});
+  TaskListView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final TaskController controller = Get.put(TaskController());
-
+    final TaskController taskController = Get.put(TaskController());
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.search_rounded, color: Colors.white),
-          onPressed: () => Get.to(() => const SearchTaskView()),
+          onPressed: () => Get.to(
+            () => SearchTaskView(),
+          ),
         ),
         title: Text(
           'Task List',
@@ -29,7 +31,7 @@ class TaskListView extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh, color: Colors.white),
-            onPressed: () => controller.pagingController.refresh(),
+            onPressed: () => taskController.pagingController.refresh(),
           ),
         ],
         centerTitle: true,
@@ -37,7 +39,7 @@ class TaskListView extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: PagedGridView<int, Task>(
-          pagingController: controller.pagingController,
+          pagingController: taskController.pagingController,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, // Number of items per row
             crossAxisSpacing: 10,
@@ -112,13 +114,20 @@ class TaskCard extends StatelessWidget {
                     color: task.completed ? Colors.green : Colors.red,
                   ),
                 ),
-                const Text(
-                  'Updated 2 days ago',
-                  style: TextStyle(
+                // const Text(
+                //   'Updated 2 days ago',
+                //   style: TextStyle(
+                //     fontSize: 10,
+                //     color: Colors.grey,
+                //   ),
+                // ),
+                Text(
+                  task.id.toString(),
+                  style: const TextStyle(
                     fontSize: 10,
                     color: Colors.grey,
                   ),
-                ),
+                )
               ],
             ),
           ],

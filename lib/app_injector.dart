@@ -15,6 +15,7 @@ import 'package:task_manager/domain/repositories/priority_repository.dart';
 import 'package:task_manager/domain/repositories/task_repository.dart';
 import 'package:task_manager/domain/repositories/user_repository.dart';
 import 'package:task_manager/domain/usecases/fetch_all_tasks_use_case.dart';
+import 'package:task_manager/presentation/controllers/task_controller.dart';
 
 final locator = GetIt.instance;
 
@@ -44,7 +45,10 @@ void setUpDependancies() {
   locator.registerLazySingleton<PriorityRepository>(
       () => PriorityRepositoryImpl(locator<PriorityLocalDataSource>()));
 
+  // Register Controllers
+  locator.registerLazySingleton<TaskController>(() => TaskController());
+
   // Register UseCases
-  locator.registerLazySingleton<FetchAllTasksUseCase>(
-      () => FetchAllTasksUseCase(taskRepository: locator<TaskRepository>()));
+  locator.registerLazySingleton<FetchTasksUseCase>(
+      () => FetchTasksUseCase(taskRepository: locator<TaskRepository>()));
 }

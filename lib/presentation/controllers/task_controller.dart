@@ -9,34 +9,39 @@ class TaskController extends GetxController {
   static const int pageSize = 10;
 
   final logger = locator<LoggerService>();
-  final PagingController<int, Task> pagingController = PagingController(firstPageKey: 0);
+  final PagingController<int, Task> pagingController =
+      PagingController(firstPageKey: 0);
 
   // Reactive variables to hold the state
   var tasks = <Task>[].obs;
   var isLoading = false.obs;
+  var _query = ''.obs;
 
-  final FetchAllTasksUseCase fetchAllTasksUseCase = locator<FetchAllTasksUseCase>();
+  final FetchTasksUseCase fetchTasksUseCase = locator<FetchTasksUseCase>();
 
   @override
   void onInit() {
     super.onInit();
     pagingController.addPageRequestListener((pageKey) {
-      getAllTasks(pageKey);
+      getTasks(pageKey);
     }); // Fetch tasks when controller is initialized
   }
 
   // Method to fetch all tasks
-  Future<void> getAllTasks(int pageKey) async {
+  Future<void> getTasks(int pageKey) async {
     try {
       isLoading(true); // Start loading
       Future.delayed(const Duration(seconds: 2)); // Simulate network delay
-      final taskList = await fetchAllTasksUseCase(pageKey, pageSize); // Call use case to fetch tasks
+      final taskList = await fetchTasksUseCase(
+          pageKey, pageSize, _query.value); // Call use case to fetch tasks
       final isLastPage = taskList.length < pageSize;
       if (isLastPage) {
-        pagingController.appendLastPage(taskList); // Assign tasks to the reactive list
+        pagingController
+            .appendLastPage(taskList); // Assign tasks to the reactive list
       } else {
         final nextPageKey = pageKey + taskList.length;
-        pagingController.appendPage(taskList, nextPageKey); // Assign tasks to the reactive list
+        pagingController.appendPage(
+            taskList, nextPageKey); // Assign tasks to the reactive list
       }
     } catch (e) {
       logger.logError(e.toString());
@@ -54,6 +59,12 @@ class TaskController extends GetxController {
     // } catch (e) {
     //   Get.snackbar('Error', 'Failed to delete task');
     // }
+  }
+
+  Future<void> searchTaskByTitle(String query) async {
+    _query(query);
+    logger.logInfo('Searched for $query');
+    pagingController.refresh();
   }
 
   @override
