@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:task_manager/app_injector.dart';
 import 'package:task_manager/domain/entities/task.dart';
 import 'package:task_manager/presentation/controllers/task_controller.dart';
 import 'package:task_manager/presentation/views/search_task_view.dart';
 
 class TaskListView extends StatelessWidget {
-  TaskListView({super.key});
+  const TaskListView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +16,7 @@ class TaskListView extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.search_rounded, color: Colors.white),
           onPressed: () => Get.to(
-            () => SearchTaskView(),
+            () => const SearchTaskView(),
           ),
         ),
         title: Text(

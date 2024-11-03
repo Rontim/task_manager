@@ -10,6 +10,11 @@ class SeedData {
   Future<void> insertDummyData() async {
     final db = await dbService.database;
 
+    await db.delete(DBConstants.taskTable);
+    await db.delete(DBConstants.priorityTable);
+    await db.delete(DBConstants.categoryTable);
+    await db.delete(DBConstants.userTable);
+
     // Insert Dummy User
     await db.insert(DBConstants.userTable, {
       DBConstants.userName: 'Ron Gitonga',

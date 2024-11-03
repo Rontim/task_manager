@@ -15,7 +15,7 @@ class TaskController extends GetxController {
   // Reactive variables to hold the state
   var tasks = <Task>[].obs;
   var isLoading = false.obs;
-  var _query = ''.obs;
+  final _query = ''.obs;
 
   final FetchTasksUseCase fetchTasksUseCase = locator<FetchTasksUseCase>();
 

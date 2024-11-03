@@ -13,7 +13,7 @@ class MainNavigationController extends GetxController {
   // List of pages to navigate to
   final List<Widget> pages = [
     const CreateTaskView(),
-    TaskListView(), // Middle page (Home)
+    const TaskListView(), // Middle page (Home)
     const SettingsView(),
   ];
 
