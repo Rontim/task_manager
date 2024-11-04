@@ -25,6 +25,7 @@ class CreateTaskView extends StatelessWidget {
             fontSize: 24,
           ),
         ),
+        backgroundColor: Colors.blue,
         elevation: 0,
       ),
       body: SingleChildScrollView(
@@ -47,10 +48,15 @@ class CreateTaskView extends StatelessWidget {
               controller: titleController,
               decoration: InputDecoration(
                 labelText: "Title",
+                labelStyle: const TextStyle(color: Colors.blue),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
-                prefixIcon: const Icon(Icons.title, color: Colors.teal),
+                prefixIcon: const Icon(Icons.title, color: Colors.blue),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
             ),
             const SizedBox(height: 16.0),
@@ -60,10 +66,15 @@ class CreateTaskView extends StatelessWidget {
               controller: descriptionController,
               decoration: InputDecoration(
                 labelText: "Description",
+                labelStyle: const TextStyle(color: Colors.blue),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
-                prefixIcon: const Icon(Icons.description, color: Colors.teal),
+                prefixIcon: const Icon(Icons.description, color: Colors.blue),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
               maxLines: 3,
             ),
@@ -73,10 +84,15 @@ class CreateTaskView extends StatelessWidget {
             Obx(() => DropdownButtonFormField<Category>(
                   decoration: InputDecoration(
                     labelText: "Select Category",
+                    labelStyle: const TextStyle(color: Colors.blue),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    prefixIcon: const Icon(Icons.category, color: Colors.teal),
+                    prefixIcon: const Icon(Icons.category, color: Colors.blue),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                   value: controller.selectedCategory.value.id != 0
                       ? controller.selectedCategory.value
@@ -99,11 +115,16 @@ class CreateTaskView extends StatelessWidget {
             Obx(() => DropdownButtonFormField<Priority>(
                   decoration: InputDecoration(
                     labelText: "Select Priority",
+                    labelStyle: const TextStyle(color: Colors.blue),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                     prefixIcon:
-                        const Icon(Icons.priority_high, color: Colors.teal),
+                        const Icon(Icons.priority_high, color: Colors.blue),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                   value: controller.selectedPriority.value.id != 0
                       ? controller.selectedPriority.value
@@ -146,7 +167,7 @@ class CreateTaskView extends StatelessWidget {
                   controller.createTask(newTask);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.primaries[2],
+                  backgroundColor: Colors.blue,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
