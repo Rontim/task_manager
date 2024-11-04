@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:task_manager/app.dart';
 import 'package:task_manager/app_injector.dart';
 import 'package:task_manager/core/debug/seed_data.dart';
+import 'package:task_manager/core/default/default_data.dart';
 import 'package:task_manager/data/datasources/local/db_service.dart';
 
 void main() async {
@@ -23,6 +24,10 @@ void main() async {
 
     final seedData = SeedData(db);
     await seedData.insertDummyData();
+  } else {
+    final db = locator<DBService>();
+    final defaultData = DefaultData(db);
+    await defaultData.insertDefaultData();
   }
 
   runApp(const App());
