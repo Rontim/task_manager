@@ -37,16 +37,17 @@ class TaskListView extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: PagedGridView<int, Task>(
+        child: PagedListView<int, Task>(
           pagingController: taskController.pagingController,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, // Number of items per row
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 15,
-            childAspectRatio: 3 / 2, // Card aspect ratio
-          ),
+          physics: const CarouselScrollPhysics(),
           builderDelegate: PagedChildBuilderDelegate<Task>(
-            itemBuilder: (context, task, index) => TaskCard(task: task),
+            itemBuilder: (context, task, index) => TaskTile(
+              task: task,
+              onSelect: () {
+                taskController.selectTask(task);
+              },
+              controller: taskController,
+            ),
             firstPageProgressIndicatorBuilder: (context) => const Center(
               child: CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.blueAccent),
@@ -67,69 +68,60 @@ class TaskListView extends StatelessWidget {
   }
 }
 
-class TaskCard extends StatelessWidget {
+class TaskTile extends StatelessWidget {
   final Task task;
+  final VoidCallback onSelect;
+  final TaskController controller;
 
-  const TaskCard({super.key, required this.task});
+  const TaskTile({
+    super.key,
+    required this.task,
+    required this.onSelect,
+    required this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.0),
+    return ListTile(
+      onTap: onSelect,
+      leading: Icon(
+        task.id == controller.selectedTaskId?.value
+            ? Icons.check_circle
+            : Icons.radio_button_unchecked,
+        color: task.completed ? Colors.blueAccent : Colors.grey,
+        size: 28,
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text(
-              task.title,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            Text(
-              task.description,
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.grey,
-              ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  task.completed ? 'Completed' : 'Pending',
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: task.completed ? Colors.green : Colors.red,
-                  ),
-                ),
-                // const Text(
-                //   'Updated 2 days ago',
-                //   style: TextStyle(
-                //     fontSize: 10,
-                //     color: Colors.grey,
-                //   ),
-                // ),
-                Text(
-                  task.id.toString(),
-                  style: const TextStyle(
-                    fontSize: 10,
-                    color: Colors.grey,
-                  ),
-                )
-              ],
-            ),
-          ],
+      title: Text(
+        task.title,
+        style: const TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+        ),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+      subtitle: Text(
+        task.description,
+        style: const TextStyle(
+          fontSize: 14,
+          color: Colors.grey,
+        ),
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+      ),
+      trailing: Text(
+        task.completed ? 'Completed' : 'Pending',
+        style: TextStyle(
+          fontSize: 12,
+          color: task.completed ? Colors.green : Colors.red,
+        ),
+      ),
+      contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        side: BorderSide(
+          color: Colors.blueAccent.withOpacity(0.3),
+          width: 1,
         ),
       ),
     );
