@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_manager/presentation/views/create_task_view.dart';
 import 'package:task_manager/presentation/views/settings_view.dart';
-import 'package:task_manager/presentation/views/task_view.dart';
+import 'package:task_manager/presentation/views/task_list_view.dart';
 // Settings screen
 
 class MainNavigationController extends GetxController {

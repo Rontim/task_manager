@@ -16,6 +16,7 @@ class TaskController extends GetxController {
   var tasks = <Task>[].obs;
   var isLoading = false.obs;
   final _query = ''.obs;
+  RxInt? selectedTaskId;
 
   final FetchTasksUseCase fetchTasksUseCase = locator<FetchTasksUseCase>();
 
@@ -65,6 +66,10 @@ class TaskController extends GetxController {
     _query(query);
     logger.logInfo('Searched for $query');
     pagingController.refresh();
+  }
+
+  void selectTask(Task task) {
+    selectedTaskId?.value = task.id!;
   }
 
   @override
