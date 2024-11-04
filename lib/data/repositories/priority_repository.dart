@@ -9,8 +9,8 @@ class PriorityRepositoryImpl implements PriorityRepository {
   PriorityRepositoryImpl(this.priorityLocalDataSource);
 
   @override
-  Future<void> createPriority(Priority priority) async {
-    await priorityLocalDataSource
+  Future<int> createPriority(Priority priority) async {
+    return await priorityLocalDataSource
         .createPriority(PriorityModel.fromEntity(priority));
   }
 

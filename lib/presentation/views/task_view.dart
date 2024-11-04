@@ -30,7 +30,7 @@ class TaskListView extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh, color: Colors.white),
-            onPressed: () => taskController.pagingController.refresh(),
+            onPressed: () => {taskController.pagingController.refresh()},
           ),
         ],
         centerTitle: true,

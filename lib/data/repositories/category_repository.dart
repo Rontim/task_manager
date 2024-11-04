@@ -9,9 +9,9 @@ class CategoryRepositoryImpl implements CategoryRepository {
   CategoryRepositoryImpl(this.categoryLocalDataSource);
 
   @override
-  Future<void> createCategory(Category category) async {
+  Future<int> createCategory(Category category) async {
     final categoryModel = CategoryModel.fromEntity(category);
-    await categoryLocalDataSource.createCategory(categoryModel);
+    return await categoryLocalDataSource.createCategory(categoryModel);
   }
 
   @override

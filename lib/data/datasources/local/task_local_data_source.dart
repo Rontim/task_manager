@@ -39,8 +39,6 @@ class TaskLocalDataSource {
       return [];
     }
 
-    logger.logDebug(maps.toString());
-
     return maps.map((task) => TaskModel.fromMap(task)).toList();
   }
 

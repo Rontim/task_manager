@@ -9,7 +9,7 @@ class TaskRepositoryImpl implements TaskRepository {
   TaskRepositoryImpl(this.taskLocalDataSource);
 
   @override
-  Future<void> createTask(Task task) async {
+  Future<int> createTask(Task task) async {
     final taskModel = TaskModel(
       categoryId: task.categoryId,
       priorityId: task.priorityId,
@@ -17,11 +17,10 @@ class TaskRepositoryImpl implements TaskRepository {
       title: task.title,
       description: task.description,
       completed: task.completed,
-      id: task.id,
       updatedAt: task.updatedAt,
     );
 
-    await taskLocalDataSource.createTask(taskModel);
+    return await taskLocalDataSource.createTask(taskModel);
   }
 
   @override

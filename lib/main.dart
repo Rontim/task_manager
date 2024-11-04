@@ -16,9 +16,12 @@ void main() async {
   await locator<DBService>().database;
 
   if (kDebugMode) {
-    final dbService = locator<DBService>();
-    final seedData = SeedData(dbService);
+    final db = locator<DBService>();
 
+    final wipeDB = WipeDatabase(db);
+    await wipeDB.wipe();
+
+    final seedData = SeedData(db);
     await seedData.insertDummyData();
   }
 

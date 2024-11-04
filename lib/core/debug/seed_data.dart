@@ -1,6 +1,35 @@
+import 'package:task_manager/app_injector.dart';
 import 'package:task_manager/core/constants/db_constants.dart';
 import 'package:task_manager/core/constants/dummy_data.dart';
+import 'package:task_manager/core/logger_service.dart';
 import 'package:task_manager/data/datasources/local/db_service.dart';
+
+class WipeDatabase {
+  final DBService dbService;
+  final logger = locator<LoggerService>();
+
+  WipeDatabase(this.dbService);
+
+  Future<void> wipe() async {
+    final db = await dbService.database;
+
+    await db.execute('DROP TABLE IF EXISTS ${DBConstants.userTable}');
+    await db.execute('DROP TABLE IF EXISTS ${DBConstants.categoryTable}');
+    await db.execute('DROP TABLE IF EXISTS ${DBConstants.priorityTable}');
+    await db.execute('DROP TABLE IF EXISTS ${DBConstants.taskTable}');
+    await db.execute('DROP TABLE IF EXISTS ${DBConstants.notificationTable}');
+
+    logger.logInfo('Database wiped');
+
+    await db.execute(DBConstants.createUserTable);
+    await db.execute(DBConstants.createCategoryTable);
+    await db.execute(DBConstants.createPriorityTable);
+    await db.execute(DBConstants.createTaskTable);
+    await db.execute(DBConstants.createNotificationTable);
+
+    // await dbService.database;
+  }
+}
 
 class SeedData {
   final DBService dbService;
@@ -9,12 +38,6 @@ class SeedData {
 
   Future<void> insertDummyData() async {
     final db = await dbService.database;
-
-    await db.delete(DBConstants.taskTable);
-    await db.delete(DBConstants.priorityTable);
-    await db.delete(DBConstants.categoryTable);
-    await db.delete(DBConstants.userTable);
-
     // Insert Dummy User
     await db.insert(DBConstants.userTable, {
       DBConstants.userName: 'Ron Gitonga',

@@ -1,7 +1,7 @@
 import 'package:task_manager/core/constants/db_constants.dart';
 
 class TaskModel {
-  final int id;
+  final int? id;
   final String title;
   final String description;
   final bool completed;
@@ -11,7 +11,7 @@ class TaskModel {
   final int priorityId;
 
   TaskModel({
-    required this.id,
+    this.id,
     required this.title,
     required this.description,
     required this.completed,

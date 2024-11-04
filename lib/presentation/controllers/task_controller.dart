@@ -3,7 +3,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:task_manager/app_injector.dart';
 import 'package:task_manager/core/logger_service.dart';
 import 'package:task_manager/domain/entities/task.dart';
-import 'package:task_manager/domain/usecases/fetch_all_tasks_use_case.dart';
+import 'package:task_manager/domain/usecases/fetch_tasks_usecase.dart';
 
 class TaskController extends GetxController {
   static const int pageSize = 10;
